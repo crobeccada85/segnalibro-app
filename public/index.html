@@ -43,7 +43,7 @@
     padding: 48px 20px 80px;
   }
 
-  .screen { width: 100%; max-width: 420px; }
+  .screen { width: 100%; max-width: 440px; }
 
   header {
     display: flex;
@@ -52,12 +52,7 @@
     margin-bottom: 40px;
   }
 
-  .eyebrow {
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin: 0 0 6px;
-    transition: var(--transition);
-  }
+  .eyebrow { font-size: 13px; color: var(--ink-soft); margin: 0 0 6px; transition: var(--transition); }
 
   h1 {
     font-family: 'Fraunces', serif;
@@ -71,11 +66,8 @@
     background: none;
     border: 1px solid var(--line);
     border-radius: 999px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     color: var(--ink);
     transition: var(--transition);
@@ -86,25 +78,11 @@
 
   .book-list { border-top: 1px solid var(--line); transition: var(--transition); min-height: 40px; }
 
-  .empty-state {
-    padding: 32px 0;
-    color: var(--ink-soft);
-    font-size: 14px;
-    text-align: center;
-    transition: var(--transition);
-  }
+  .empty-state { padding: 32px 0; color: var(--ink-soft); font-size: 14px; text-align: center; transition: var(--transition); }
 
   .book { padding: 22px 0; border-bottom: 1px solid var(--line); transition: var(--transition); }
 
-  .book-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .book-title-wrap { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+  .book-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
 
   .book-title {
     font-family: 'Fraunces', serif;
@@ -117,159 +95,96 @@
     white-space: nowrap;
   }
 
-  .book-pos {
-    font-variant-numeric: tabular-nums;
-    font-size: 15px;
-    color: var(--ink-soft);
-    white-space: nowrap;
-    background: none;
+  .remove-btn {
+    background: none; border: none; color: var(--ink-soft);
+    cursor: pointer; font-size: 16px; line-height: 1; padding: 4px; flex-shrink: 0;
+  }
+
+  .position-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .position-box {
+    background: var(--bg-raise);
+    border-radius: 10px;
+    padding: 12px 14px;
     border: none;
-    font-family: inherit;
+    text-align: left;
     cursor: pointer;
-    padding: 0;
+    font-family: inherit;
+    color: var(--ink);
     transition: var(--transition);
   }
 
-  .book-bottom { display: flex; align-items: center; gap: 14px; }
+  .position-box.is-source { box-shadow: inset 0 0 0 1.5px var(--accent); }
+
+  .position-label { font-size: 11px; color: var(--ink-soft); margin: 0 0 3px; transition: var(--transition); }
+  .position-value { font-size: 18px; font-variant-numeric: tabular-nums; margin: 0; }
+  .position-approx { font-size: 10px; color: var(--ink-soft); margin-top: 2px; transition: var(--transition); }
 
   .progress-track {
-    flex: 1;
-    height: 3px;
-    background: var(--line);
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-    transition: var(--transition);
+    height: 3px; background: var(--line); border-radius: 2px;
+    position: relative; overflow: hidden; transition: var(--transition);
   }
-
   .progress-fill {
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    background: var(--accent);
-    border-radius: 2px;
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--accent); border-radius: 2px;
     transition: width 0.4s ease, background-color 0.6s ease;
   }
 
-  .format-switch {
-    display: flex;
-    background: var(--bg-raise);
-    border-radius: 999px;
-    padding: 3px;
-    font-size: 12px;
-    transition: var(--transition);
-    flex-shrink: 0;
-  }
-
-  .format-switch button {
-    border: none;
-    background: none;
-    padding: 5px 11px;
-    border-radius: 999px;
-    font: inherit;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition: var(--transition);
-  }
-
-  .format-switch button.active { background: var(--accent); color: var(--accent-ink); }
-
-  .remove-btn {
-    background: none;
-    border: none;
-    color: var(--ink-soft);
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-    padding: 4px;
-    flex-shrink: 0;
-  }
-
   .add-book {
-    margin-top: 24px;
-    width: 100%;
-    background: none;
-    border: 1px dashed var(--line);
-    border-radius: 10px;
-    padding: 16px;
-    color: var(--ink-soft);
-    font: inherit;
-    font-size: 14px;
-    cursor: pointer;
-    transition: var(--transition);
+    margin-top: 24px; width: 100%;
+    background: none; border: 1px dashed var(--line); border-radius: 10px;
+    padding: 16px; color: var(--ink-soft); font: inherit; font-size: 14px;
+    cursor: pointer; transition: var(--transition);
   }
-
   .add-book:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .status {
-    text-align: center;
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-top: 16px;
-    min-height: 16px;
-    transition: var(--transition);
-  }
+  .status { text-align: center; font-size: 12px; color: var(--ink-soft); margin-top: 16px; min-height: 16px; transition: var(--transition); }
 
-  /* Modale */
   .overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 10;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px; z-index: 10; overflow-y: auto;
   }
   .overlay.open { display: flex; }
 
   .modal {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 24px;
-    width: 100%;
-    max-width: 360px;
-    transition: var(--transition);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px; width: 100%; max-width: 380px; transition: var(--transition);
+    margin: auto;
   }
 
-  .modal h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 20px;
-    margin: 0 0 18px;
-  }
+  .modal h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; margin: 0 0 6px; }
+  .modal .hint { font-size: 12px; color: var(--ink-soft); margin: 0 0 18px; line-height: 1.5; transition: var(--transition); }
 
   .field { margin-bottom: 14px; }
-  .field label {
-    display: block;
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-bottom: 6px;
+  .field label { display: block; font-size: 12px; color: var(--ink-soft); margin-bottom: 6px; transition: var(--transition); }
+  .field input {
+    width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--bg-raise); color: var(--ink); font: inherit; font-size: 15px;
     transition: var(--transition);
   }
-  .field input, .field select {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
+
+  .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .calib-group {
     border: 1px solid var(--line);
-    background: var(--bg-raise);
-    color: var(--ink);
-    font: inherit;
-    font-size: 15px;
+    border-radius: 10px;
+    padding: 14px 14px 2px;
+    margin-bottom: 16px;
     transition: var(--transition);
   }
+  .calib-group p { font-size: 12px; color: var(--ink-soft); margin: 0 0 12px; font-weight: 500; transition: var(--transition); }
 
   .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
   .modal-actions button {
-    flex: 1;
-    padding: 11px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: none;
-    color: var(--ink);
-    font: inherit;
-    font-size: 14px;
-    cursor: pointer;
-    transition: var(--transition);
+    flex: 1; padding: 11px; border-radius: 8px; border: 1px solid var(--line);
+    background: none; color: var(--ink); font: inherit; font-size: 14px;
+    cursor: pointer; transition: var(--transition);
   }
   .modal-actions .primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 </style>
@@ -292,35 +207,57 @@
   <p class="status" id="status"></p>
 </div>
 
-<div class="overlay" id="overlay">
+<!-- Modale: nuovo libro (con calibrazione) -->
+<div class="overlay" id="overlayNew">
   <div class="modal">
-    <h2 id="modalTitle">Nuovo libro</h2>
+    <h2>Nuovo libro</h2>
+    <p class="hint">Trova lo stesso identico punto del testo sia su Kindle che sul cartaceo, in due momenti diversi del libro (es. inizio e metà), e inseriscili qui. Servono per calcolare con precisione ogni conversione futura.</p>
+
     <div class="field">
-      <label for="fTitle">Titolo</label>
-      <input type="text" id="fTitle" placeholder="Es. Le città invisibili">
+      <label for="nTitle">Titolo</label>
+      <input type="text" id="nTitle" placeholder="Es. Le città invisibili">
     </div>
+
+    <div class="calib-group">
+      <p>Riferimento 1 (es. inizio libro)</p>
+      <div class="field-pair">
+        <div class="field"><label for="nLoc1">Posizione Kindle</label><input type="number" id="nLoc1" inputmode="numeric"></div>
+        <div class="field"><label for="nPage1">Pagina cartaceo</label><input type="number" id="nPage1" inputmode="numeric"></div>
+      </div>
+    </div>
+
+    <div class="calib-group">
+      <p>Riferimento 2 (es. metà libro)</p>
+      <div class="field-pair">
+        <div class="field"><label for="nLoc2">Posizione Kindle</label><input type="number" id="nLoc2" inputmode="numeric"></div>
+        <div class="field"><label for="nPage2">Pagina cartaceo</label><input type="number" id="nPage2" inputmode="numeric"></div>
+      </div>
+    </div>
+
     <div class="field">
-      <label for="fFormat">Formato attuale</label>
-      <select id="fFormat">
-        <option value="kindle">Kindle</option>
-        <option value="cartaceo">Cartaceo</option>
-      </select>
+      <label for="nTotal">Pagine totali del cartaceo (opzionale, per la barra di avanzamento)</label>
+      <input type="number" id="nTotal" inputmode="numeric">
     </div>
-    <div class="field" id="pageField">
-      <label for="fPage">Pagina attuale</label>
-      <input type="number" id="fPage" min="0" inputmode="numeric">
+
+    <div class="modal-actions">
+      <button id="nCancel">Annulla</button>
+      <button class="primary" id="nSave">Aggiungi</button>
     </div>
-    <div class="field" id="totalField">
-      <label for="fTotal">Pagine totali</label>
-      <input type="number" id="fTotal" min="1" inputmode="numeric">
-    </div>
-    <div class="field" id="percentField" style="display:none">
-      <label for="fPercent">Percentuale letta</label>
-      <input type="number" id="fPercent" min="0" max="100" inputmode="numeric">
+  </div>
+</div>
+
+<!-- Modale: aggiorna posizione attuale -->
+<div class="overlay" id="overlayUpdate">
+  <div class="modal">
+    <h2 id="uTitle">Aggiorna posizione</h2>
+    <p class="hint" id="uHint"></p>
+    <div class="field">
+      <label id="uLabel" for="uValue">Valore</label>
+      <input type="number" id="uValue" inputmode="numeric">
     </div>
     <div class="modal-actions">
-      <button id="cancelBtn">Annulla</button>
-      <button class="primary" id="saveBtn">Salva</button>
+      <button id="uCancel">Annulla</button>
+      <button class="primary" id="uSave">Salva</button>
     </div>
   </div>
 </div>
@@ -329,23 +266,43 @@
   const sunPath = `<circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.5" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.5"></line><line x1="4.2" y1="4.2" x2="6" y2="6"></line><line x1="18" y1="18" x2="19.8" y2="19.8"></line><line x1="2.5" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.5" y2="12"></line><line x1="4.2" y1="19.8" x2="6" y2="18"></line><line x1="18" y1="6" x2="19.8" y2="4.2"></line>`;
   const moonPath = `<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.6 6.6 0 0 0 10.5 10.5Z"></path>`;
 
-  const MAX_BOOKS = 5;
+  const MAX_BOOKS = 10;
   let books = [];
-  let editingIndex = null;
+  let updatingIndex = null;
+  let updatingSource = null;
 
   const bookList = document.getElementById('bookList');
   const statusEl = document.getElementById('status');
   const addBookBtn = document.getElementById('addBookBtn');
-  const overlay = document.getElementById('overlay');
-  const modalTitle = document.getElementById('modalTitle');
-  const fTitle = document.getElementById('fTitle');
-  const fFormat = document.getElementById('fFormat');
-  const fPage = document.getElementById('fPage');
-  const fTotal = document.getElementById('fTotal');
-  const fPercent = document.getElementById('fPercent');
-  const pageField = document.getElementById('pageField');
-  const totalField = document.getElementById('totalField');
-  const percentField = document.getElementById('percentField');
+
+  const overlayNew = document.getElementById('overlayNew');
+  const nTitle = document.getElementById('nTitle');
+  const nLoc1 = document.getElementById('nLoc1');
+  const nPage1 = document.getElementById('nPage1');
+  const nLoc2 = document.getElementById('nLoc2');
+  const nPage2 = document.getElementById('nPage2');
+  const nTotal = document.getElementById('nTotal');
+
+  const overlayUpdate = document.getElementById('overlayUpdate');
+  const uTitle = document.getElementById('uTitle');
+  const uHint = document.getElementById('uHint');
+  const uLabel = document.getElementById('uLabel');
+  const uValue = document.getElementById('uValue');
+
+  // --- Conversione lineare a due punti di riferimento ---
+  function kindleToPage(book, loc) {
+    const { loc1, page1, loc2, page2 } = book;
+    if (loc2 === loc1) return page1;
+    const page = page1 + (loc - loc1) * (page2 - page1) / (loc2 - loc1);
+    return Math.max(1, Math.round(page));
+  }
+
+  function pageToKindle(book, page) {
+    const { loc1, page1, loc2, page2 } = book;
+    if (page2 === page1) return loc1;
+    const loc = loc1 + (page - page1) * (loc2 - loc1) / (page2 - page1);
+    return Math.max(0, Math.round(loc));
+  }
 
   async function loadBooks() {
     statusEl.textContent = 'Carico i tuoi libri…';
@@ -377,6 +334,12 @@
     }
   }
 
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
   function render() {
     bookList.innerHTML = '';
 
@@ -388,45 +351,50 @@
     }
 
     books.forEach((b, i) => {
-      const pct = b.format === 'kindle' ? b.percent : Math.round((b.page / b.total) * 100);
-      const posLabel = b.format === 'kindle' ? `${b.percent}%` : `pag. ${b.page} / ${b.total}`;
+      const hasCurrent = b.current != null;
+      let currentLoc, currentPage;
+
+      if (hasCurrent) {
+        if (b.current.source === 'kindle') {
+          currentLoc = b.current.value;
+          currentPage = kindleToPage(b, currentLoc);
+        } else {
+          currentPage = b.current.value;
+          currentLoc = pageToKindle(b, currentPage);
+        }
+      }
+
+      const pct = (hasCurrent && b.total) ? Math.min(100, Math.max(0, Math.round((currentPage / b.total) * 100))) : null;
 
       const el = document.createElement('div');
       el.className = 'book';
       el.innerHTML = `
         <div class="book-top">
-          <div class="book-title-wrap">
-            <p class="book-title">${escapeHtml(b.title)}</p>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <button class="book-pos" data-i="${i}" data-action="edit">${posLabel}</button>
-            <button class="remove-btn" data-i="${i}" data-action="remove" aria-label="Rimuovi">×</button>
-          </div>
+          <p class="book-title">${escapeHtml(b.title)}</p>
+          <button class="remove-btn" data-i="${i}" aria-label="Rimuovi">×</button>
         </div>
-        <div class="book-bottom">
-          <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-          <div class="format-switch">
-            <button data-i="${i}" data-f="kindle" class="${b.format === 'kindle' ? 'active' : ''}">Kindle</button>
-            <button data-i="${i}" data-f="cartaceo" class="${b.format === 'cartaceo' ? 'active' : ''}">Cartaceo</button>
-          </div>
+        <div class="position-grid">
+          <button class="position-box ${hasCurrent && b.current.source === 'kindle' ? 'is-source' : ''}" data-i="${i}" data-source="kindle">
+            <p class="position-label">Kindle</p>
+            <p class="position-value">${hasCurrent ? currentLoc : '—'}</p>
+            ${hasCurrent && b.current.source !== 'kindle' ? '<p class="position-approx">stimata</p>' : ''}
+          </button>
+          <button class="position-box ${hasCurrent && b.current.source === 'cartaceo' ? 'is-source' : ''}" data-i="${i}" data-source="cartaceo">
+            <p class="position-label">Cartaceo${b.total ? ' / ' + b.total : ''}</p>
+            <p class="position-value">${hasCurrent ? currentPage : '—'}</p>
+            ${hasCurrent && b.current.source !== 'cartaceo' ? '<p class="position-approx">stimata</p>' : ''}
+          </button>
         </div>
+        ${pct !== null ? `<div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>` : ''}
       `;
       bookList.appendChild(el);
     });
 
-    bookList.querySelectorAll('.format-switch button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        books[btn.dataset.i].format = btn.dataset.f;
-        render();
-        saveBooks();
-      });
+    bookList.querySelectorAll('.position-box').forEach(btn => {
+      btn.addEventListener('click', () => openUpdateModal(Number(btn.dataset.i), btn.dataset.source));
     });
 
-    bookList.querySelectorAll('[data-action="edit"]').forEach(btn => {
-      btn.addEventListener('click', () => openModal(Number(btn.dataset.i)));
-    });
-
-    bookList.querySelectorAll('[data-action="remove"]').forEach(btn => {
+    bookList.querySelectorAll('.remove-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         books.splice(Number(btn.dataset.i), 1);
         render();
@@ -440,79 +408,69 @@
       : '+ Aggiungi un libro';
   }
 
-  function escapeHtml(str) {
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
-  }
-
-  function openModal(index) {
-    editingIndex = index;
-    const isNew = index === null;
-    modalTitle.textContent = isNew ? 'Nuovo libro' : 'Modifica libro';
-    const b = isNew ? { title: '', format: 'kindle', page: 0, total: 300, percent: 0 } : books[index];
-
-    fTitle.value = b.title;
-    fTitle.disabled = !isNew;
-    fFormat.value = b.format;
-    fPage.value = b.page || 0;
-    fTotal.value = b.total || 300;
-    fPercent.value = b.percent || 0;
-    updateFormatFields();
-
-    overlay.classList.add('open');
-    (isNew ? fTitle : fPage).focus();
-  }
-
-  function closeModal() {
-    overlay.classList.remove('open');
-    editingIndex = null;
-  }
-
-  function updateFormatFields() {
-    const isKindle = fFormat.value === 'kindle';
-    percentField.style.display = isKindle ? 'block' : 'none';
-    pageField.style.display = isKindle ? 'none' : 'block';
-    totalField.style.display = isKindle ? 'none' : 'block';
-  }
-
-  fFormat.addEventListener('change', updateFormatFields);
-
+  // --- Modale nuovo libro ---
   addBookBtn.addEventListener('click', () => {
     if (books.length >= MAX_BOOKS) return;
-    openModal(null);
+    [nTitle, nLoc1, nPage1, nLoc2, nPage2, nTotal].forEach(f => f.value = '');
+    overlayNew.classList.add('open');
+    nTitle.focus();
   });
 
-  document.getElementById('cancelBtn').addEventListener('click', closeModal);
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.getElementById('nCancel').addEventListener('click', () => overlayNew.classList.remove('open'));
+  overlayNew.addEventListener('click', (e) => { if (e.target === overlayNew) overlayNew.classList.remove('open'); });
 
-  document.getElementById('saveBtn').addEventListener('click', () => {
-    const title = fTitle.value.trim();
-    if (editingIndex === null && !title) {
-      fTitle.focus();
+  document.getElementById('nSave').addEventListener('click', () => {
+    const title = nTitle.value.trim();
+    const loc1 = parseInt(nLoc1.value, 10);
+    const page1 = parseInt(nPage1.value, 10);
+    const loc2 = parseInt(nLoc2.value, 10);
+    const page2 = parseInt(nPage2.value, 10);
+    const total = nTotal.value ? parseInt(nTotal.value, 10) : null;
+
+    if (!title) { nTitle.focus(); return; }
+    if ([loc1, page1, loc2, page2].some(v => isNaN(v))) {
+      statusEl.textContent = 'Compila entrambi i riferimenti per calibrare la conversione.';
+      return;
+    }
+    if (loc1 === loc2) {
+      statusEl.textContent = 'I due riferimenti Kindle devono essere diversi tra loro.';
       return;
     }
 
-    const format = fFormat.value;
-    const page = Math.max(0, parseInt(fPage.value, 10) || 0);
-    const total = Math.max(1, parseInt(fTotal.value, 10) || 1);
-    const percent = Math.min(100, Math.max(0, parseInt(fPercent.value, 10) || 0));
-
-    if (editingIndex === null) {
-      books.push({ title, format, page, total, percent });
-    } else {
-      const b = books[editingIndex];
-      b.format = format;
-      b.page = page;
-      b.total = total;
-      b.percent = percent;
-    }
-
-    closeModal();
+    books.push({ title, loc1, page1, loc2, page2, total, current: null });
+    overlayNew.classList.remove('open');
     render();
     saveBooks();
   });
 
+  // --- Modale aggiorna posizione ---
+  function openUpdateModal(index, source) {
+    updatingIndex = index;
+    updatingSource = source;
+    const b = books[index];
+    uTitle.textContent = b.title;
+    uLabel.textContent = source === 'kindle' ? 'Nuova posizione Kindle' : 'Nuova pagina cartacea';
+    uHint.textContent = source === 'kindle'
+      ? 'Inserisci il numero di "Location" che vedi sul Kindle: calcolerò la pagina cartacea corrispondente.'
+      : 'Inserisci la pagina del cartaceo a cui sei arrivato: calcolerò la posizione Kindle corrispondente.';
+    uValue.value = '';
+    overlayUpdate.classList.add('open');
+    uValue.focus();
+  }
+
+  document.getElementById('uCancel').addEventListener('click', () => overlayUpdate.classList.remove('open'));
+  overlayUpdate.addEventListener('click', (e) => { if (e.target === overlayUpdate) overlayUpdate.classList.remove('open'); });
+
+  document.getElementById('uSave').addEventListener('click', () => {
+    const value = parseInt(uValue.value, 10);
+    if (isNaN(value)) { uValue.focus(); return; }
+    books[updatingIndex].current = { source: updatingSource, value };
+    overlayUpdate.classList.remove('open');
+    render();
+    saveBooks();
+  });
+
+  // --- Tema giorno/notte ---
   function setTheme(theme) {
     document.body.dataset.theme = theme;
     document.getElementById('themeIcon').innerHTML = theme === 'night' ? moonPath : sunPath;
