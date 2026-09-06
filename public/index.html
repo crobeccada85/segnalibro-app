@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F6F2EA">
+<title>Segnalibro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F2EA;
+    --bg-raise: #EFE9DC;
+    --ink: #211D18;
+    --ink-soft: #6B6459;
+    --line: #DCD3C2;
+    --accent: #D98C3D;
+    --accent-ink: #FFFFFF;
+    --transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
+  }
+
+  [data-theme="night"] {
+    --bg: #15141B;
+    --bg-raise: #1D1C25;
+    --ink: #EDE8DD;
+    --ink-soft: #8B8879;
+    --line: #302E3A;
+    --accent: #8CA0C9;
+    --accent-ink: #15141B;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    transition: var(--transition);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 48px 20px 80px;
+  }
+
+  .screen { width: 100%; max-width: 420px; }
+
+  header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 6px;
+    transition: var(--transition);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 30px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .toggle-btn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink);
+    transition: var(--transition);
+    flex-shrink: 0;
+  }
+
+  .toggle-btn svg { width: 20px; height: 20px; }
+
+  .book-list { border-top: 1px solid var(--line); transition: var(--transition); min-height: 40px; }
+
+  .empty-state {
+    padding: 32px 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+    text-align: center;
+    transition: var(--transition);
+  }
+
+  .book { padding: 22px 0; border-bottom: 1px solid var(--line); transition: var(--transition); }
+
+  .book-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .book-title-wrap { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+
+  .book-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 19px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .book-pos {
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: var(--transition);
+  }
+
+  .book-bottom { display: flex; align-items: center; gap: 14px; }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .progress-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease, background-color 0.6s ease;
+  }
+
+  .format-switch {
+    display: flex;
+    background: var(--bg-raise);
+    border-radius: 999px;
+    padding: 3px;
+    font-size: 12px;
+    transition: var(--transition);
+    flex-shrink: 0;
+  }
+
+  .format-switch button {
+    border: none;
+    background: none;
+    padding: 5px 11px;
+    border-radius: 999px;
+    font: inherit;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .format-switch button.active { background: var(--accent); color: var(--accent-ink); }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  .add-book {
+    margin-top: 24px;
+    width: 100%;
+    background: none;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .add-book:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .status {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    min-height: 16px;
+    transition: var(--transition);
+  }
+
+  /* Modale */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 10;
+  }
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+    transition: var(--transition);
+  }
+
+  .modal h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0 0 18px;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    transition: var(--transition);
+  }
+  .field input, .field select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--bg-raise);
+    color: var(--ink);
+    font: inherit;
+    font-size: 15px;
+    transition: var(--transition);
+  }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .modal-actions button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .modal-actions .primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+</style>
+</head>
+<body data-theme="day">
+<div class="screen">
+  <header>
+    <div>
+      <p class="eyebrow" id="greeting">Buongiorno</p>
+      <h1>I tuoi libri</h1>
+    </div>
+    <button class="toggle-btn" id="themeToggle" aria-label="Cambia tema">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></svg>
+    </button>
+  </header>
+
+  <div class="book-list" id="bookList"></div>
+
+  <button class="add-book" id="addBookBtn">+ Aggiungi un libro</button>
+  <p class="status" id="status"></p>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2 id="modalTitle">Nuovo libro</h2>
+    <div class="field">
+      <label for="fTitle">Titolo</label>
+      <input type="text" id="fTitle" placeholder="Es. Le città invisibili">
+    </div>
+    <div class="field">
+      <label for="fFormat">Formato attuale</label>
+      <select id="fFormat">
+        <option value="kindle">Kindle</option>
+        <option value="cartaceo">Cartaceo</option>
+      </select>
+    </div>
+    <div class="field" id="pageField">
+      <label for="fPage">Pagina attuale</label>
+      <input type="number" id="fPage" min="0" inputmode="numeric">
+    </div>
+    <div class="field" id="totalField">
+      <label for="fTotal">Pagine totali</label>
+      <input type="number" id="fTotal" min="1" inputmode="numeric">
+    </div>
+    <div class="field" id="percentField" style="display:none">
+      <label for="fPercent">Percentuale letta</label>
+      <input type="number" id="fPercent" min="0" max="100" inputmode="numeric">
+    </div>
+    <div class="modal-actions">
+      <button id="cancelBtn">Annulla</button>
+      <button class="primary" id="saveBtn">Salva</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const sunPath = `<circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.5" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.5"></line><line x1="4.2" y1="4.2" x2="6" y2="6"></line><line x1="18" y1="18" x2="19.8" y2="19.8"></line><line x1="2.5" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.5" y2="12"></line><line x1="4.2" y1="19.8" x2="6" y2="18"></line><line x1="18" y1="6" x2="19.8" y2="4.2"></line>`;
+  const moonPath = `<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.6 6.6 0 0 0 10.5 10.5Z"></path>`;
+
+  const MAX_BOOKS = 5;
+  let books = [];
+  let editingIndex = null;
+
+  const bookList = document.getElementById('bookList');
+  const statusEl = document.getElementById('status');
+  const addBookBtn = document.getElementById('addBookBtn');
+  const overlay = document.getElementById('overlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const fTitle = document.getElementById('fTitle');
+  const fFormat = document.getElementById('fFormat');
+  const fPage = document.getElementById('fPage');
+  const fTotal = document.getElementById('fTotal');
+  const fPercent = document.getElementById('fPercent');
+  const pageField = document.getElementById('pageField');
+  const totalField = document.getElementById('totalField');
+  const percentField = document.getElementById('percentField');
+
+  async function loadBooks() {
+    statusEl.textContent = 'Carico i tuoi libri…';
+    try {
+      const res = await fetch('/api/books');
+      books = await res.json();
+    } catch (e) {
+      books = [];
+      statusEl.textContent = 'Non riesco a contattare il server. Riprova tra poco.';
+      render();
+      return;
+    }
+    statusEl.textContent = '';
+    render();
+  }
+
+  async function saveBooks() {
+    statusEl.textContent = 'Salvo…';
+    try {
+      await fetch('/api/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(books),
+      });
+      statusEl.textContent = 'Salvato';
+      setTimeout(() => { if (statusEl.textContent === 'Salvato') statusEl.textContent = ''; }, 1500);
+    } catch (e) {
+      statusEl.textContent = 'Salvataggio non riuscito, controlla la connessione.';
+    }
+  }
+
+  function render() {
+    bookList.innerHTML = '';
+
+    if (books.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Nessun libro ancora. Aggiungine uno per iniziare.';
+      bookList.appendChild(empty);
+    }
+
+    books.forEach((b, i) => {
+      const pct = b.format === 'kindle' ? b.percent : Math.round((b.page / b.total) * 100);
+      const posLabel = b.format === 'kindle' ? `${b.percent}%` : `pag. ${b.page} / ${b.total}`;
+
+      const el = document.createElement('div');
+      el.className = 'book';
+      el.innerHTML = `
+        <div class="book-top">
+          <div class="book-title-wrap">
+            <p class="book-title">${escapeHtml(b.title)}</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="book-pos" data-i="${i}" data-action="edit">${posLabel}</button>
+            <button class="remove-btn" data-i="${i}" data-action="remove" aria-label="Rimuovi">×</button>
+          </div>
+        </div>
+        <div class="book-bottom">
+          <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="format-switch">
+            <button data-i="${i}" data-f="kindle" class="${b.format === 'kindle' ? 'active' : ''}">Kindle</button>
+            <button data-i="${i}" data-f="cartaceo" class="${b.format === 'cartaceo' ? 'active' : ''}">Cartaceo</button>
+          </div>
+        </div>
+      `;
+      bookList.appendChild(el);
+    });
+
+    bookList.querySelectorAll('.format-switch button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        books[btn.dataset.i].format = btn.dataset.f;
+        render();
+        saveBooks();
+      });
+    });
+
+    bookList.querySelectorAll('[data-action="edit"]').forEach(btn => {
+      btn.addEventListener('click', () => openModal(Number(btn.dataset.i)));
+    });
+
+    bookList.querySelectorAll('[data-action="remove"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        books.splice(Number(btn.dataset.i), 1);
+        render();
+        saveBooks();
+      });
+    });
+
+    addBookBtn.disabled = books.length >= MAX_BOOKS;
+    addBookBtn.textContent = books.length >= MAX_BOOKS
+      ? `Limite di ${MAX_BOOKS} libri raggiunto`
+      : '+ Aggiungi un libro';
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function openModal(index) {
+    editingIndex = index;
+    const isNew = index === null;
+    modalTitle.textContent = isNew ? 'Nuovo libro' : 'Modifica libro';
+    const b = isNew ? { title: '', format: 'kindle', page: 0, total: 300, percent: 0 } : books[index];
+
+    fTitle.value = b.title;
+    fTitle.disabled = !isNew;
+    fFormat.value = b.format;
+    fPage.value = b.page || 0;
+    fTotal.value = b.total || 300;
+    fPercent.value = b.percent || 0;
+    updateFormatFields();
+
+    overlay.classList.add('open');
+    (isNew ? fTitle : fPage).focus();
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    editingIndex = null;
+  }
+
+  function updateFormatFields() {
+    const isKindle = fFormat.value === 'kindle';
+    percentField.style.display = isKindle ? 'block' : 'none';
+    pageField.style.display = isKindle ? 'none' : 'block';
+    totalField.style.display = isKindle ? 'none' : 'block';
+  }
+
+  fFormat.addEventListener('change', updateFormatFields);
+
+  addBookBtn.addEventListener('click', () => {
+    if (books.length >= MAX_BOOKS) return;
+    openModal(null);
+  });
+
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const title = fTitle.value.trim();
+    if (editingIndex === null && !title) {
+      fTitle.focus();
+      return;
+    }
+
+    const format = fFormat.value;
+    const page = Math.max(0, parseInt(fPage.value, 10) || 0);
+    const total = Math.max(1, parseInt(fTotal.value, 10) || 1);
+    const percent = Math.min(100, Math.max(0, parseInt(fPercent.value, 10) || 0));
+
+    if (editingIndex === null) {
+      books.push({ title, format, page, total, percent });
+    } else {
+      const b = books[editingIndex];
+      b.format = format;
+      b.page = page;
+      b.total = total;
+      b.percent = percent;
+    }
+
+    closeModal();
+    render();
+    saveBooks();
+  });
+
+  function setTheme(theme) {
+    document.body.dataset.theme = theme;
+    document.getElementById('themeIcon').innerHTML = theme === 'night' ? moonPath : sunPath;
+    document.getElementById('greeting').textContent = theme === 'night' ? 'Buonasera' : 'Buongiorno';
+  }
+
+  const hour = new Date().getHours();
+  setTheme((hour >= 20 || hour < 7) ? 'night' : 'day');
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    setTheme(document.body.dataset.theme === 'day' ? 'night' : 'day');
+  });
+
+  loadBooks();
+</script>
+</body>
+</html>
