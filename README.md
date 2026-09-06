@@ -1,6 +1,6 @@
 # Segnalibro
 
-App personale per tenere traccia della pagina/posizione di lettura di fino a 5 libri,
+App personale per tenere traccia della pagina/posizione di lettura di fino a 10 libri,
 passando liberamente tra versione Kindle e versione cartacea, sincronizzata tra dispositivi.
 
 ## Struttura
